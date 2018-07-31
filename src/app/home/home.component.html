@@ -1,0 +1,66 @@
+
+<div class="form-group">
+    <nav class="navbar navbar-light  justify-content-between " style="background-color: #252E3C">
+        <nav class="navbar navbar-dark  indigo darken-2">
+
+        
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent22" aria-controls="navbarSupportedContent22"
+                aria-expanded="false" aria-label="Toggle navigation"><div class="animated-icon4" (click) = "toggleIt($event)"><span></span><span></span><span></span></div></button>
+        
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent22">
+        
+                <!-- Links -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                </ul>
+                <!-- Links -->
+        
+            </div>
+            <!-- Collapsible content -->
+        
+        </nav>
+        <!--/.Navbar-->
+      <a class="navbar-brand">Global Warming Analysis</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)] = "searchedCountry" name = "country">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click) = "moveToCountry()">Search your interest</button>
+      </form>
+    </nav>
+  </div>
+
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+
+<!-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" *ngIf = "flagToShowData">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      hi namrata
+    </div>
+  </div>
+</div> -->
+
+<div class="container" *ngIf = "!flagToShowData">
+
+  <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" (mapClick)="show($event)">
+    <div id="map_controls" class="controls" >
+      <ul class="buttons">
+        <li class="locate"><a href="#" id="control_map_pinpoint" title="My Location"></a></li>
+        <li class="city"><a href="#" id="control_map_city" title="My Location"></a></li>
+        <li class="world"><a href="#" id="control_map_global" title="My Location"></a></li>
+      </ul>
+    </div>
+    <agm-marker *ngFor = "let markedPlace of arrayOfMarkedPlaces" [latitude] = "markedPlace.lat" [longitude] = "markedPlace.lng" (markerClick) = "showData()" ></agm-marker>
+  </agm-map>
+
+</div>
+
+

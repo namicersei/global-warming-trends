@@ -48,9 +48,10 @@
   </div>
 </div> -->
 
-<div class="container" *ngIf = "!flagToShowData">
-
-  <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" (mapClick)="show($event)">
+  <div id="wrapper"> 
+    <div id="map"></div>
+  </div>
+  <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" (mapClick)="show($event)">
     <div id="map_controls" class="controls" >
       <ul class="buttons">
         <li class="locate"><a href="#" id="control_map_pinpoint" title="My Location"></a></li>
@@ -59,8 +60,7 @@
       </ul>
     </div>
     <agm-marker *ngFor = "let markedPlace of arrayOfMarkedPlaces" [latitude] = "markedPlace.lat" [longitude] = "markedPlace.lng" (markerClick) = "showData()" ></agm-marker>
-  </agm-map>
+  </agm-map> -->
 
-</div>
 
 

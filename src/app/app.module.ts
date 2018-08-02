@@ -8,6 +8,9 @@ import { HomeComponent } from './home/home.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { AppRoutingModule } from './/app-routing.module';
+import { UtilitiesService } from './utilities.service';
+
+import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 @NgModule({
@@ -24,9 +27,10 @@ import { AppRoutingModule } from './/app-routing.module';
       apiKey: 'AIzaSyAYJ1km5f6AJjfwfaa3A48pjLyAske5NDQ',
       libraries: ['geometry', 'places']
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UtilitiesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,6 +4,7 @@ import { MapsAPILoader } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { } from '@types/googlemaps';
 import { LatLong } from '../core/latlng';
+import { UtilitiesService } from '../utilities.service';
 declare var google: any;
 
 @Component({
@@ -13,7 +14,6 @@ declare var google: any;
 })
 export class HomeComponent implements OnInit {
   map: any;
-   geocoder: any;
 
   markers: any;
   public myLatLng = {lat: -25.363, lng: 131.044};
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   disableDragStartForDropOff: Boolean = false;
 
   proceedButtonDisabled: Boolean = true;
-
+public arrayOfMarkers = [];
   public locations = [
     {lat: -31.563910, lng: 147.154312},
     {lat: 80, lng: 100},
@@ -67,10 +67,10 @@ export class HomeComponent implements OnInit {
   ];
 
 
-  // public contentString = '<div id="content">';
-  // '<div id="siteNotice">' +
-  // '</div>'
-  // '<h1 id="firstHeading" class="firstHeading">' + this.something.CountryName + '</h1>' 
+  public contentString = '<div id="content">' +
+  '<div id="siteNotice">' +
+  '</div>' +
+  '<h1 id="firstHeading" class="firstHeading">' +  'This country has the followinf levels of carbon' +  '</h1>';
   // '<div id="bodyContent">' +
   // '<p></p>' +
   // '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
@@ -81,32 +81,30 @@ export class HomeComponent implements OnInit {
 
 
   public infowindow = new google.maps.InfoWindow({
-    // content: this.contentString
+    content: this.contentString
   });
 
-//   geocoder = new google.maps.Geocoder();
+  geocoder = new google.maps.Geocoder();
 
-  constructor (private ngZone: NgZone) { }
+  constructor (private ngZone: NgZone, private util: UtilitiesService) { }
 
   ngOnInit() {
   this.createMap();
   }
 
-// getCountryCoor(searchedCountry, array) {
-// this.geocoder.geocode( { 'address': searchedCountry}, function(results, status) {
-//       if (status === 'OK') {
-// this.latitude = results[0].geometry.location.lat();
-// this.longitude = results[0].geometry.location.lng();
-// array.push({'lat': this.latitude, 'lng': this.longitude});
-// } else {
-//   console.log("Could not find the ");
-// }
+getCountryCoor(searchedCountry, array) {
+this.geocoder.geocode( { 'address': searchedCountry}, function(results, status) {
+      if (status === 'OK') {
+this.latitude = results[0].geometry.location.lat();
+this.longitude = results[0].geometry.location.lng();
+array.push({'lat': this.latitude, 'lng': this.longitude});
+} else {
+  console.log("Could not find the ");
+}
 
-// });
+});
 
-// }
-
-
+}
 
 
 
@@ -118,29 +116,33 @@ createMap(): void {
       const currLocation = new google.maps.LatLng(this.latitudePickUp, this.longitudePickUp);
       const mapOptions = {
         center: currLocation,
-        zoom: 16,
+        zoom: 2,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: true
       };
       const mapEl = document.getElementById('map');
       this.map = new google.maps.Map(mapEl, mapOptions);
 
-      // google.maps.event.addListener(this.marker, 'click', () => {
-      //   this.infowindow.open(this.map, this.marker);
-      // });
-      // this.markers = this.locations.map(function(location) {
+// Creation of markers and event emitter
 
-      //   return new google.maps.Marker({
-      //     position: new google.maps.LatLng(location.lat, location.lng)
-      //   });
-      // });
      this.locations.forEach(element => {
       const marker = new google.maps.Marker({
         position: element,
         map: this.map,
-        title: 'Hello World!'
       });
+      this.arrayOfMarkers.push(marker);
       });
+// for info window
+    this.arrayOfMarkers.forEach(element => {
+      google.maps.event.addListener(element, 'click', () => {
+this.util.getData().subscribe(data => {
+  console.log(data)
+});
+          console.log(element.internalPosition.lat())
+          this.infowindow.open(this.map, element)
+        });
+      });
+
     }
   });
 }
